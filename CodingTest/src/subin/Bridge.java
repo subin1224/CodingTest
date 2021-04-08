@@ -6,8 +6,10 @@ import java.util.Queue;
 public class Bridge {
 	   public static void main(String[] args) {
 	        int len = 2;
-	        int weight = 10;
+	        //int len=5;
+	        int weight = 5;
 	        int[] truck = {7,4,5,6};
+	        //int[] truck = {2,2,2,2,1,1,1,1,1}; //answer=19
 	        int answer = solution(len, weight, truck);
 	        System.out.println(":::MAIN::::" + answer);
 	    }
@@ -22,10 +24,6 @@ public class Bridge {
 	        Queue<Integer> qu = new LinkedList<Integer>();
 	        int sum=0; //다리에 있는 트럭의 무게 합
 	        
-	        /*
-	        for문으로 안되니까 무한루프로 돌려보자
-	        */
-	        
 	        
 	        for(int i=0; i< truck_weights.length; i++){
 	            sum+=truck_weights[i];
@@ -33,34 +31,20 @@ public class Bridge {
 	            
 	            System.out.println(i+"번째 if 들어가기 전 qu = " + qu);
 	            
-	            if(qu.size()>bridge_length) {
+	            if(sum>weight) {
 	            	sum-=qu.poll();
-	            	if(sum>weight) {
-	            		sum-=qu.poll();
-	            		answer+=(bridge_length-qu.size()+1);
-	            	}else {
-	            		answer++;
-	            	}
+	            	answer+=(bridge_length-qu.size());
 	            }else {
-	            	if(sum>weight) {
-	            		sum-=qu.poll();
-	            		answer+=bridge_length;
-	            	}else {
-	            		answer++;
-	            	}
+	            	answer++;
+	            	if(qu.size() > bridge_length) sum-=qu.poll();
 	            }
-	            
 	            System.out.println(i+"번째 sum :: " + sum);
 	            System.out.println(i+"번째 경과시간 :: " + answer);
 	          
 	        }
-        	if(sum>weight) {
-        		sum-=qu.poll();
-        		answer+=(bridge_length-qu.size()+1);
-        	}
-        	
-	        //answer+=bridge_length;
-
+	       
+        	answer+=bridge_length;
+			
 	        return answer;
 	    }
 	}
