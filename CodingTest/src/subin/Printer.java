@@ -43,7 +43,7 @@ public class Printer {
                 }else{
                     if(j==i-1){
                         stack.push(i);
-                        System.out.println("else 문의 "+i + ", " + j + " stack.push i = " + stack);
+                        System.out.println("j==i-1 / else 문의 "+i + ", " + j + " stack.push i = " + stack);
                     }
                 }
             }
