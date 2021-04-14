@@ -1,6 +1,8 @@
 package subin;
 
-import java.util.Stack;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Printer {
     public static void main(String[] args) {
@@ -27,36 +29,37 @@ public class Printer {
       2) 아니면 그냥 큐 이용
       */
         int answer=0;
-        Stack<Integer> stack = new Stack<>();
-        stack.push(0);
-        for(int i=0; i<priorities.length; i++){
-            for(int j=0; j<i; j++){
-                if(priorities[i] < priorities[j]){ // 1 2
-                    System.out.println("p[i]=" + priorities[i] + ", p[j]=" + priorities[j]);
-                    stack.pop();
-                    System.out.println(i + ", " + j + " stack.pop = " + stack);
-                    stack.push(i);
-                    System.out.println(i + ", " + j + " stack.push j = " + stack);
-                    stack.push(j);
-                    System.out.println(i + ", " + j + " stack.push i = " + stack);
-                    System.out.println(i + ", " + j + " stack.peek = " + stack.peek());
-                }else{
-                    if(j==i-1){
-                        stack.push(i);
-                        System.out.println("j==i-1 / else 문의 "+i + ", " + j + " stack.push i = " + stack);
-                    }
-                }
-            }
-        } //for
+        int l = location;
 
-        System.out.println(stack);
-        while(!stack.isEmpty()){
-            if(stack.pop()!=location){
+        Queue<Integer> que = new LinkedList<Integer>();
+        for(int i : priorities){
+            que.add(i);
+        }
+
+        Arrays.sort(priorities);
+        int size = priorities.length-1;
+
+        while(!que.isEmpty()){
+            Integer i = que.poll();
+            if(i == priorities[size - answer]){
                 answer++;
+                l--;
+                System.out.println("i="+i+", priorities[]="+priorities[size-answer]);
+                System.out.println("answer="+answer+", l="+l);
+                if(l <0)
+                    break;
             }else{
-                break;
+                que.add(i);
+                l--;
+                System.out.println("i="+i+", priorities[]="+priorities[size-answer]);
+                System.out.println("answer="+answer+", l="+l);
+                System.out.println("q="+que);
+                if(l<0)
+                    l=que.size()-1;
+                //l이 location의 offset느낌이라서 계속 빼주는데 0보다작다는건 방금뽑았단 얘기이므로 다시큐맨끝에 넣어야되서 size()-1로 업데이트해주는것
             }
         }
-        return answer+1;
+
+        return answer;
     }
 }
