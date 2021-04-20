@@ -1,6 +1,9 @@
 package subin;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,8 +11,12 @@ import java.util.Map;
 public class Album {
 	public static void main(String[] args) {
 		String[] genres= {"classic", "pop", "classic", "classic", "pop"};
-		int[] plays= {500, 600, 150, 800, 2500};
+		//String[] genres= {"classic", "pop", "classic", "classic","jazz","pop", "Rock", "jazz"};
+		int[] plays= {500, 600, 150, 800, 2500}; // 4 1 3 0
+		//int[] plays= {500, 600, 150, 800, 1100, 2500, 100, 1000}; //answer : 5 1 4 7 3 0 6
+		
 		int[] answer = solution(genres,plays);
+		
 		System.out.println("====Main===");
 		for(int n : answer) System.out.print(n+" "); //4 1 3 0
 	}
@@ -25,15 +32,20 @@ public class Album {
     	*/
     	Map<Integer, Integer> album = new HashMap<Integer, Integer>();
     	Map<String, Integer> map = new HashMap<String, Integer>();
+    	ArrayList<Map<String, Integer>> list = new ArrayList<Map<String,Integer>>();
+    	
     	//Map에 저장
     	for(int i=0; i<genres.length; i++) {
     		album.put(plays[i],i); //album 은 plays와 고유번호 i가 담겨져 있음
     		map.put(genres[i], map.getOrDefault(genres[i], 0) + plays[i]); //해당 장르에 몇번이 play되었는지
     	}
-    	//map : Value값 오름차순 정렬 
-    	// 정렬 ... 콜렉션에 대해 좀 배우고 시작하자 ㅠㅠ 
+    	list.add(map);
+    	//Collections.sort(list, new Comparator<>() {
+    		
+		//});
     	
     	
+    	//return 고유번호들
         int[] answer = {};
         return answer;
     }
