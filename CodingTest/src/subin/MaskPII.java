@@ -47,7 +47,7 @@ public class MaskPII {
 				answer = "+" + S + "-" + sec + "-" + th + "-" + number;
 			}
 		}
-		
+		//StringBuilder / StringBuffer
 		return answer;
     }
 }
