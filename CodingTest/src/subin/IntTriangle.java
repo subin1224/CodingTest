@@ -1,5 +1,7 @@
 package subin;
 
+import java.util.Arrays;
+
 public class IntTriangle {
 	public int solution(int[][] triangle) {
 		/*
@@ -11,14 +13,14 @@ public class IntTriangle {
 		return 거쳐간 숫자의 합 최댓값
 		*/
         
+		//1) 내가 푼 방법 // Test: 8 계속 틀림
 		
-		// 아직 못풀음 ㅜ_ㅜ 
 		//삼각형의 높이는 1이상 500이하
 		int[][] dp = new int[501][501];
 		
 		dp[0][0] = triangle[0][0];
-        dp[1][0] = triangle[0][0] + triangle[1][0];
-        dp[1][1] = triangle[0][0] + triangle[1][1];
+        dp[1][0] = dp[0][0] + triangle[1][0];
+        dp[1][1] = dp[0][0] + triangle[1][1];
         
         //첫번째 idx, 마지막 idx
         for(int i=2; i<triangle.length; i++) {
@@ -33,7 +35,7 @@ public class IntTriangle {
         	}
         }
         
-        int answer = 0;
+        int answer = -1; //삼각형 이루는 숫자는 0이상 이니까
         for(int i=0; i<triangle.length; i++) {
         	if(dp[triangle.length-1][i] > answer) {
         		answer = dp[triangle.length-1][i];
@@ -41,5 +43,45 @@ public class IntTriangle {
         }
         
         return answer;
+    }
+	
+	
+	//2) 답지
+	public int solution2(int[][] triangle) {
+        for (int i = 1; i < triangle.length; i++) {
+            triangle[i][0] += triangle[i-1][0];
+            triangle[i][i] += triangle[i-1][i-1];
+            for (int j = 1; j < i; j++) 
+                triangle[i][j] += Math.max(triangle[i-1][j-1], triangle[i-1][j]);
+        }
+
+        return Arrays.stream(triangle[triangle.length-1]).max().getAsInt();
+    }
+	
+	//3)
+    public int solution3(int[][] triangle) {
+        int[][] copyTriangle = new int[triangle.length][triangle.length];
+
+        copyTriangle[0][0] = triangle[0][0];
+        for (int i = 1; i < triangle.length; i++) {
+            copyTriangle[i][0] = copyTriangle[i - 1][0] + triangle[i][0];
+            copyTriangle[i][i] = copyTriangle[i - 1][i - 1] + triangle[i][i];
+        }
+
+        for (int i = 2; i < triangle.length; i++) {
+            for (int j = 1; j < i; j++) {
+                copyTriangle[i][j] = Math.max(copyTriangle[i - 1][j - 1], copyTriangle[i - 1][j])
+                    + triangle[i][j];
+            }
+        }
+
+        int maxNo = copyTriangle[copyTriangle.length - 1][0];
+        for (int i = 1; i < triangle.length; i++) {
+            int checkNo = copyTriangle[copyTriangle.length - 1][i];
+            if (maxNo < checkNo) {
+                maxNo = checkNo;
+            }
+        }
+        return maxNo;
     }
 }
